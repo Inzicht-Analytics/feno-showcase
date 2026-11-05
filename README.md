@@ -1,8 +1,14 @@
-# Feno — a season diary for fig and pomegranate growers
+# Feno — season records, forecasts and export planning for fig and pomegranate growers
 
 **Product owner:** Belinda Kennedy · [Portfolio](https://inzicht-analytics.github.io/) · [LinkedIn](https://www.linkedin.com/in/belinda-kennedy-analyst/)
 
-Feno is a mobile app that lets fig and pomegranate growers in the Western Cape log their season, block by block, offline in the orchard, in English and Afrikaans. Its exporter module, **Feno Ops**, gives an export company a harvest forecast built from what growers log, so buyers and shipping are ready before picking.
+Feno helps fig and pomegranate growers in the Western Cape record their season, see what is coming, and plan the harvest with their exporter. It has three modules:
+
+| Module | Who it is for | What it does |
+| --- | --- | --- |
+| **Feno Diary** | Growers and farm workers | Log growth stages, sprays, fertiliser, irrigation, pruning, pest counts and harvests per block, offline in the orchard, in English and Afrikaans |
+| **Feno Forecasting** | Growers | Turns the diary and each farm's weather into heat units and a harvest forecast per block: how much, when, and which weeks, with the reasons in plain words |
+| **Feno Ops** | Export companies | Shows the farms that chose to share, with the forecast, totals per variety and week, so buyers and shipping are ready before picking |
 
 I found the problem, wrote the requirements, own the backlog and ship it, with Claude as my daily build partner. The code is private because it runs a live pilot with real farms; this page shows how the product is run.
 
@@ -14,13 +20,44 @@ I found the problem, wrote the requirements, own the backlog and ship it, with C
 | Quality | 326 unit tests, 255 browser tests and 28 database rule suites, run on every change |
 
 <p>
-  <img src="screenshots/phone-light-home.png" width="200" alt="Home: forecast, heat units and things to watch">
+  <img src="screenshots/phone-light-home.png" width="200" alt="Home: weather, heat units and things to watch">
   <img src="screenshots/phone-light-log-stage.png" width="200" alt="Logging a growth stage, with drawings of each stage">
   <img src="screenshots/phone-light-timeline.png" width="200" alt="Timeline of a season's entries">
   <img src="screenshots/phone-light-history.png" width="200" alt="Change history with restore">
 </p>
 
 <sub>Screenshots use made-up test data.</sub>
+
+## The three modules
+
+```mermaid
+flowchart LR
+  D["Feno Diary<br/>what growers log"] --> F["Feno Forecasting<br/>what is coming"]
+  W["Weather for every farm<br/>automatic"] --> F
+  F -- "only what the owner shares" --> O["Feno Ops<br/>exporter planning"]
+```
+
+### Feno Diary
+
+The record growers own. Every entry saves on the phone first and sends exactly once when signal returns. Entries can be corrected, every change is kept in a history owners can restore from, and the whole record downloads as Excel or CSV.
+
+### Feno Forecasting
+
+Growers never type weather. Feno fetches it for every farm and adds up **heat units** (growing degree days) from 1 July, shown beside each stage and against last season on the same day.
+
+From that, Feno forecasts each block's harvest:
+
+- **How much:** last season's kilograms, adjusted by the latest quick *crop check* (much less to much more), or fruit per tree × trees × fruit weight when counted.
+- **When:** last season's first pick, moved by how far ahead or behind this season is, by matching stages or heat units.
+- **Which weeks:** last season's harvest curve from that first pick.
+
+The grower sees the reasons in plain words and confirms the forecast as their own estimate in one tap. *Things to watch* on Home turns the weather forecast and the diary into reminders, never spray advice.
+
+**Next:** stage forecasts from heat units, and a first pest alert from degree-day models.
+
+### Feno Ops
+
+The exporter's side, laptop first. Staff see only farms whose owners share with them, only the shared crop, and never personal details. They get the season forecast as a chart and table, totals per variety, week-by-week volumes against what was picked, a per-farm view with the forecast's reasons, and a CSV for the freight forwarder. Feno's forecast shows straight away, labelled, until the grower's own estimate replaces it.
 
 ## The problem
 
@@ -43,7 +80,7 @@ Pilot feedback goes into the backlog as a problem statement, and comes back to g
 | They didn't know an app could be installed from Chrome | A guided install step on first run, per phone and browser |
 | They wanted to know who can see their farm | Farm → People lists everyone who can see the records; other growers only ever see area averages from 3+ farms with 3+ owners |
 | Pollination doesn't fit a growth stage | Logged as an activity with phases, not a stage |
-| The exporter needs volumes before harvest | A harvest forecast from the diary, labelled as Feno's until the grower confirms it |
+| The exporter needs volumes before harvest | Feno Forecasting: a harvest forecast from the diary, labelled as Feno's until the grower confirms it |
 | Growers must stay in control of what is shared | Each kind of record is its own tick, all off until the owner ticks it |
 | The Log menu was hard to scan in the orchard | Two drawers, *Pre-harvest* and *Harvest*, the right one opens first for the time of year |
 
@@ -103,7 +140,7 @@ Privacy lives in the database, not only the screens: every table has row-level s
 | 2027 harvest | 28 May 2027 |
 | 2027/28 season ready | 31 Aug 2027 |
 
-Next up: automatic weather and heat units per farm, stage and harvest forecasts, and a first pest alert.
+Next up in Feno Forecasting: stage forecasts and a first pest alert.
 
 ---
 
