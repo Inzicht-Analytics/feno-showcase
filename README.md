@@ -15,9 +15,10 @@ I found the problem, wrote the requirements, own the backlog and ship it, with C
 | | |
 | --- | --- |
 | Status | Pilot with growers and a first exporter, Western Cape |
-| Backlog | 75 issues closed, 99 open, 7 dated milestones |
-| Delivery | 105 pull requests merged, 46 database migrations |
-| Quality | 326 unit tests, 255 browser tests and 28 database rule suites, run on every change |
+| Backlog | 86 issues closed, 109 open, 7 dated milestones |
+| Delivery | 122 pull requests merged, 50 database migrations |
+| Quality | 611 unit tests, 302 browser tests and 33 database rule suites, run on every change |
+| Design | A brand library with design tokens, 21 growth-stage drawings and a Figma mirror: [Feno Design](https://github.com/Inzicht-Analytics/feno-design) |
 
 <p>
   <img src="screenshots/phone-light-home.png" width="200" alt="Home: weather, heat units and things to watch">
@@ -83,6 +84,16 @@ Pilot feedback goes into the backlog as a problem statement, and comes back to g
 | The exporter needs volumes before harvest | Feno Forecasting: a harvest forecast from the diary, labelled as Feno's until the grower confirms it |
 | Growers must stay in control of what is shared | Each kind of record is its own tick, all off until the owner ticks it |
 | The Log menu was hard to scan in the orchard | Two drawers, *Pre-harvest* and *Harvest*, the right one opens first for the time of year |
+
+## How it looks
+
+Feno got its own look in November 2026, before the first picks: a brand library I specified and chose from three directions, in one line *a field notebook with Headspace polish*. Every colour, type size, spacing step and motion lives in one tokens file that the app, the tests and a Figma file all read; the build fails when a text pair drops below its contrast floor in either theme. The 21 growth-stage drawings are drawn in code, so they work in light and dark and in both languages. The brand book, tokens, spec and screens are public at [Feno Design](https://github.com/Inzicht-Analytics/feno-design).
+
+<p>
+  <img src="screenshots/design-stages-light.png" width="200" alt="The 21 growth-stage drawings in light mode">
+  <img src="screenshots/design-home-dark.png" width="200" alt="Home in dark mode">
+  <img src="screenshots/design-colours-light.png" width="200" alt="The palette with its contrast ratios">
+</p>
 
 ## How it is built
 
